@@ -1,0 +1,17 @@
+{
+  "name": "cyclesave-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "serverless offline start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless": "^1.26.1",
+    "serverless-offline": "^3.20.3"
+  }
+}

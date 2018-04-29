@@ -1,0 +1,17 @@
+service: cyclesave-api
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+
+functions:
+  getBikeRides:
+    handler: src/functions/get-bike-rides.handle
+    events:
+      - http:
+          path: get-some-stuff
+          method: get
+
+plugins:
+  - serverless-offline
