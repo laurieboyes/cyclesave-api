@@ -1,14 +1,35 @@
+const getGoogleFitBikerides = require('../lib/get-google-fit-bikerides');
+
 module.exports.handle = (event, context, callback) => {
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!',
-      input: event,
-    }),
-  };
 
-  callback(null, response);
+	const googleAuthToken = event.queryStringParameters && event.queryStringParameters.authToken;
 
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // callback(null, { message: 'Go Serverless v1.0! Your function executed successfully!', event });
+	if (!googleAuthToken || !googleAuthToken.length) {
+		callback(null, callback(null, {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: 'authToken queryParam required'
+			}),
+		}));
+	}
+
+	getGoogleFitBikerides(googleAuthToken, new Date('2016-08-01'), new Date('2016-08-31'))
+		.then(bikeRides => {
+			console.log('bikeRides', bikeRides);
+			callback(null, {
+				statusCode: 200,
+				body: JSON.stringify({
+					bikeRides
+				}),
+			});
+		})
+		.catch(err => {
+			console.log('err', err);
+			callback(null, {
+				statusCode: 500,
+				body: JSON.stringify({
+					message: err.message
+				}),
+			});
+		})
 };
